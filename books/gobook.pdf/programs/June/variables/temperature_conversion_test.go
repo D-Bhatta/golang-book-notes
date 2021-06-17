@@ -12,9 +12,9 @@ func TestConvertFahrenheitToCelcius(t *testing.T) {
 		fahrenheit float64
 		celcius    float64
 	}{
-		{fahrenheit: 100, celcius: 37.77778},
-		{fahrenheit: 0, celcius: -17.77778},
-		{fahrenheit: -100, celcius: -73.33333},
+		{fahrenheit: 100, celcius: 37.777778},
+		{fahrenheit: 0, celcius: -17.777778},
+		{fahrenheit: -100, celcius: -73.333333},
 		{fahrenheit: 32.00000, celcius: 0},
 	}
 
