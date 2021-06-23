@@ -12,10 +12,10 @@ func TestConvertFahrenheitToCelcius(t *testing.T) {
 		fahrenheit float64
 		celcius    float64
 	}{
-		{fahrenheit: 100, celcius: 37.777778},
-		{fahrenheit: 0, celcius: -17.777778},
-		{fahrenheit: -100, celcius: -73.333333},
-		{fahrenheit: 32.00000, celcius: 0},
+		{fahrenheit: 100.000000, celcius: 37.777778},
+		{fahrenheit: 0.000000, celcius: -17.777778},
+		{fahrenheit: -100.000000, celcius: -73.333333},
+		{fahrenheit: 32.000000, celcius: 0},
 	}
 
 	for _, tc := range temps_array {
