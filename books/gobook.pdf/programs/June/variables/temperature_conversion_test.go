@@ -23,7 +23,7 @@ func TestConvertFahrenheitToCelcius(t *testing.T) {
 			celcius, err := ConvertFahrenheitToCelcius(tc.fahrenheit)
 
 			if err != nil {
-				t.Fatalf(fmt.Sprintf("Error in test %v", err))
+				t.Fatalf("Error in test %v", err)
 			}
 
 			if celcius != tc.celcius {
