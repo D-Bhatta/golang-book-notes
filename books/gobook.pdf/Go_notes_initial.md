@@ -251,9 +251,9 @@ func TestConvertFahrenheitToCelcius(t *testing.T) {
 		fahrenheit float64
 		celcius    float64
 	}{
-		{fahrenheit: 100, celcius: 37.77778},
-		{fahrenheit: 0, celcius: -17.77778},
-		{fahrenheit: -100, celcius: -73.33333},
+		{fahrenheit: 100, celcius: 37.777778},
+		{fahrenheit: 0, celcius: -17.777778},
+		{fahrenheit: -100, celcius: -73.333333},
 		{fahrenheit: 32.00000, celcius: 0},
 	}
 
@@ -324,7 +324,144 @@ programs/June/variables on  gobook [!?⇡] via 🐹 v1.16.5 on ☁️  (us-ea
 ❯
 ```
 
-- 
+- We write the logic to convert fahrenheit to celcius values in the program
+
+```go
+package variables
+
+import (
+    "fmt"
+)
+
+func total(){
+    var (
+        input_temperature float64
+        // output_temperature float64
+    )
+    fmt.Print("Enter the input temperature in Fahrenheit: ")
+    fmt.Scanf("%f", &input_temperature)
+
+    // TODO: Get result from output function
+    // output_temperature
+}
+
+func ConvertFahrenheitToCelcius(fahrenheit_temp float64) (float64, error){
+    celcius := ((fahrenheit_temp-32) * 5)/9
+    return celcius, nil
+}
+```
+
+- We run tests with go test
+
+```powershell
+programs/June/variables on  gobook [!⇡] via 🐹 v1.16.5 on ☁️  (us-east-1) 
+❯ go test -v
+=== RUN   TestConvertFahrenheitToCelcius
+=== RUN   TestConvertFahrenheitToCelcius/F100.000000_to_C37.777778
+    temperature_conversion_test.go:30: Given Fahrenheit = 100.000000, returned celcius = 37.777778, <nil>, want match for 37.777778, nil
+=== RUN   TestConvertFahrenheitToCelcius/F0.000000_to_C-17.777778
+    temperature_conversion_test.go:30: Given Fahrenheit = 0.000000, returned celcius = -17.777778, <nil>, want match for -17.777778, nil
+=== RUN   TestConvertFahrenheitToCelcius/F-100.000000_to_C-73.333333
+    temperature_conversion_test.go:30: Given Fahrenheit = -100.000000, returned celcius = -73.333333, <nil>, want match for -73.333333, nil
+=== RUN   TestConvertFahrenheitToCelcius/F32.000000_to_C0.000000
+--- FAIL: TestConvertFahrenheitToCelcius (0.07s)
+    --- FAIL: TestConvertFahrenheitToCelcius/F100.000000_to_C37.777778 (0.00s)
+    --- FAIL: TestConvertFahrenheitToCelcius/F0.000000_to_C-17.777778 (0.00s)
+    --- FAIL: TestConvertFahrenheitToCelcius/F-100.000000_to_C-73.333333 (0.07s)
+    --- PASS: TestConvertFahrenheitToCelcius/F32.000000_to_C0.000000 (0.00s)
+FAIL
+exit status 1
+FAIL    debabrata.xyz/variables 0.453s
+
+programs/June/variables on  gobook [!⇡] via 🐹 v1.16.5 on ☁️  (us-east-1) took 26s
+❯
+```
+
+- We notice that one test passes and others fail. This is beacause of floating point numbers.
+- We only need precision of upto 6 decimal digits.
+
+```go
+package variables
+
+import (
+	"fmt"
+	"math"
+)
+
+func total(){
+    var (
+        input_temperature float64
+        // output_temperature float64
+    )
+    fmt.Print("Enter the input temperature in Fahrenheit: ")
+    fmt.Scanf("%f", &input_temperature)
+
+    // TODO: Get result from output function
+    // output_temperature
+}
+
+func ConvertFahrenheitToCelcius(fahrenheit_temp float64) (float64, error){
+    celcius := ((fahrenheit_temp-32) * 5)/9
+    celcius_6f := math.Round((celcius * 1000000))/1000000
+    return celcius_6f, nil
+}
+```
+
+- We run tests with `go test -v`
+
+```powershell
+programs/June/variables on  gobook [!⇡] via 🐹 v1.16.5 on ☁️  (us-east-1) took 2s
+❯ go test -v
+=== RUN   TestConvertFahrenheitToCelcius
+=== RUN   TestConvertFahrenheitToCelcius/F100.000000_to_C37.777778
+=== RUN   TestConvertFahrenheitToCelcius/F0.000000_to_C-17.777778
+=== RUN   TestConvertFahrenheitToCelcius/F-100.000000_to_C-73.333333
+=== RUN   TestConvertFahrenheitToCelcius/F32.000000_to_C0.000000
+--- PASS: TestConvertFahrenheitToCelcius (0.01s)
+    --- PASS: TestConvertFahrenheitToCelcius/F100.000000_to_C37.777778 (0.00s)
+    --- PASS: TestConvertFahrenheitToCelcius/F0.000000_to_C-17.777778 (0.00s)
+    --- PASS: TestConvertFahrenheitToCelcius/F-100.000000_to_C-73.333333 (0.00s)
+    --- PASS: TestConvertFahrenheitToCelcius/F32.000000_to_C0.000000 (0.00s)
+PASS
+ok      debabrata.xyz/variables 0.095s
+
+programs/June/variables on  gobook [!⇡] via 🐹 v1.16.5 on ☁️  (us-east-1) took 2s
+❯
+```
+
+- We polish off the program
+
+```go
+package variables
+
+import (
+	"fmt"
+	"log"
+	"math"
+)
+
+func total() float64{
+    var (
+        input_temperature float64
+    )
+    fmt.Print("Enter the input temperature in Fahrenheit: ")
+    fmt.Scanf("%f", &input_temperature)
+
+    output_temperature, err := ConvertFahrenheitToCelcius(input_temperature)
+
+    if (err != nil) {
+        log.Fatal(fmt.Sprintf("Error in function total in variables/temperature_conversion.go: %v", err))
+    }
+
+    return output_temperature
+}
+
+func ConvertFahrenheitToCelcius(fahrenheit_temp float64) (float64, error){
+    celcius := ((fahrenheit_temp-32) * 5)/9
+    celcius_6f := math.Round((celcius * 1000000))/1000000
+    return celcius_6f, nil
+}
+```
 
 ## Additional notes
 
