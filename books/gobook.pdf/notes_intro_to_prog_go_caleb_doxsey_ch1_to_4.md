@@ -661,7 +661,7 @@ PASS
 ok      debabrata.xyz/variables 0.097s
 ```
 
-This ends chapter 
+This ends chapter
 
 ## Additional notes
 
