@@ -17,6 +17,7 @@ Book by Caleb Doxsey.
       - [Variables](#variables)
     - [Exercise Programs](#exercise-programs)
       - [Temparature conversion from Fahrenheit to C](#temparature-conversion-from-fahrenheit-to-c)
+      - [Convert from feet to meters](#convert-from-feet-to-meters)
   - [Additional notes](#additional-notes)
     - [Language specific](#language-specific)
 
@@ -462,6 +463,205 @@ func ConvertFahrenheitToCelcius(fahrenheit_temp float64) (float64, error){
     return celcius_6f, nil
 }
 ```
+
+#### Convert from feet to meters
+
+- In this program we will convert feet to meters.
+- We first create a skeleton file
+
+```go
+// length_conversion.go
+package variables
+
+import (
+	"fmt"
+)
+
+func FeetToMeters() float64 {
+	var input_number float64
+	fmt.Print("Enter the value of feet: ")
+	fmt.Scanf("%f", &input_number)
+
+	// TODO: Get converted meters from feet value using function
+	return 1
+}
+
+func ConvertFeetToMeters(feet float64) (float64, error) {
+    return 1, nil
+}
+
+```
+
+- We create a test file with tests
+
+```go
+package variables
+
+import (
+    "fmt"
+    "testing"
+)
+
+func TestConvertFeetToMeters(t *testing.T){
+    feet_array := []struct{
+        feet float64
+        meters float64
+    } {
+        {1, 0.3048},
+        {99, 30.1752},
+        {100000000, 30480000},
+        {999999999, 304799999.695},
+        {0.9999999, 0.30479996952},
+        {1.121254778984587, 0.34175845663450216128},
+        {0.00000000000000000000000000000001, 3.048000000000000277e-33},
+    }
+    
+    for _, tc := range feet_array {
+        t.Run(fmt.Sprintf("F%f to M%f", tc.feet, tc.meters), func(t *testing.T) {
+            meters, err := ConvertFeetToMeters(tc.feet)
+
+            if (err != nil) {
+                t.Fatalf("Error in test %v", err)
+            }
+
+            if (meters != tc.meters){
+                t.Errorf("Given feet=%f, returned meters=%f, %v, want match for %f,nil", tc.feet, meters, err, tc.meters)
+            }
+        })
+    }
+}
+```
+
+- We run the test with `go test -v -run TestConvertFeetToMeters`
+
+```powershell
+programs/June/variables on  gobook [!?⇡] via 🐹 v1.16.5 on ☁️  (us-east-1)
+❯ go test -v -run TestConvertFeetToMeters
+=== RUN   TestConvertFeetToMeters
+=== RUN   TestConvertFeetToMeters/F1.000000_to_M0.304800
+    length_conversion_test.go:31: Given feet=1.000000, returned meters=1.000000, <nil>, want match for 0.304800,nil
+=== RUN   TestConvertFeetToMeters/F99.000000_to_M30.175200
+    length_conversion_test.go:31: Given feet=99.000000, returned meters=1.000000, <nil>, want match for 30.175200,nil
+=== RUN   TestConvertFeetToMeters/F100000000.000000_to_M30480000.000000
+    length_conversion_test.go:31: Given feet=100000000.000000, returned meters=1.000000, <nil>, want match for 30480000.000000,nil
+=== RUN   TestConvertFeetToMeters/F999999999.000000_to_M304799999.695000
+    length_conversion_test.go:31: Given feet=999999999.000000, returned meters=1.000000, <nil>, want match for 304799999.695000,nil
+=== RUN   TestConvertFeetToMeters/F1.000000_to_M0.304800#01
+    length_conversion_test.go:31: Given feet=1.000000, returned meters=1.000000, <nil>, want match for 0.304800,nil
+=== RUN   TestConvertFeetToMeters/F1.121255_to_M0.341758
+    length_conversion_test.go:31: Given feet=1.121255, returned meters=1.000000, <nil>, want match for 0.341758,nil
+=== RUN   TestConvertFeetToMeters/F0.000000_to_M0.000000
+    length_conversion_test.go:31: Given feet=0.000000, returned meters=1.000000, <nil>, want match for 0.000000,nil
+--- FAIL: TestConvertFeetToMeters (0.06s)
+    --- FAIL: TestConvertFeetToMeters/F1.000000_to_M0.304800 (0.00s)
+    --- FAIL: TestConvertFeetToMeters/F99.000000_to_M30.175200 (0.00s)
+    --- FAIL: TestConvertFeetToMeters/F100000000.000000_to_M30480000.000000 (0.00s)
+    --- FAIL: TestConvertFeetToMeters/F999999999.000000_to_M304799999.695000 (0.01s)
+    --- FAIL: TestConvertFeetToMeters/F1.000000_to_M0.304800#01 (0.00s)
+    --- FAIL: TestConvertFeetToMeters/F1.121255_to_M0.341758 (0.02s)
+    --- FAIL: TestConvertFeetToMeters/F0.000000_to_M0.000000 (0.01s)
+FAIL
+exit status 1
+FAIL    debabrata.xyz/variables 0.155s
+
+programs/June/variables on  gobook [!?⇡] via 🐹 v1.16.5 on ☁️  (us-east-1)
+❯
+```
+
+- We add code to return a conversion to meters
+
+```go
+func ConvertFeetToMeters(feet float64) (float64, error) {
+    meters := feet * 0.3048
+
+    return meters,nil
+}
+```
+
+- We run the test with `go test -v -run TestConvertFeetToMeters`
+
+```powershell
+programs/June/variables on  gobook [!?⇡] via 🐹 v1.16.5 on ☁️  (us-east-1) took 2s
+❯ go test -v -run TestConvertFeetToMeters
+=== RUN   TestConvertFeetToMeters
+=== RUN   TestConvertFeetToMeters/F1.000000_to_M0.304800
+=== RUN   TestConvertFeetToMeters/F99.000000_to_M30.175200
+=== RUN   TestConvertFeetToMeters/F100000000.000000_to_M30480000.000000
+=== RUN   TestConvertFeetToMeters/F999999999.000000_to_M304799999.695200
+=== RUN   TestConvertFeetToMeters/F1.000000_to_M0.304800#01
+    length_conversion_test.go:31: Given feet=1.000000, returned meters=0.304800, <nil>, want match for 0.304799970,nil        
+=== RUN   TestConvertFeetToMeters/F1.121255_to_M0.341758
+=== RUN   TestConvertFeetToMeters/F0.000000_to_M0.000000
+--- FAIL: TestConvertFeetToMeters (0.01s)
+    --- PASS: TestConvertFeetToMeters/F1.000000_to_M0.304800 (0.00s)
+    --- PASS: TestConvertFeetToMeters/F99.000000_to_M30.175200 (0.00s)
+    --- PASS: TestConvertFeetToMeters/F100000000.000000_to_M30480000.000000 (0.00s)
+    --- PASS: TestConvertFeetToMeters/F999999999.000000_to_M304799999.695200 (0.00s)
+    --- FAIL: TestConvertFeetToMeters/F1.000000_to_M0.304800#01 (0.00s)
+    --- PASS: TestConvertFeetToMeters/F1.121255_to_M0.341758 (0.00s)
+    --- PASS: TestConvertFeetToMeters/F0.000000_to_M0.000000 (0.00s)
+FAIL
+exit status 1
+FAIL    debabrata.xyz/variables 0.055s
+```
+
+- We find that the error is in the test, so we make the test case more precise
+
+```go
+func TestConvertFeetToMeters(t *testing.T){
+    feet_array := []struct{
+        feet float64
+        meters float64
+    } {
+        {1, 0.3048},
+        {99, 30.1752},
+        {100000000, 30480000},
+        {999999999, 304799999.6952},
+        {0.9999999, 0.304799969520000046951}, // Changed this one to a more precise value using a different calculator
+        {1.121254778984587, 0.34175845663450216128},
+        {0.00000000000000000000000000000001, 3.048000000000000277e-33},
+    }
+    
+    for _, tc := range feet_array {
+        t.Run(fmt.Sprintf("F%f to M%f", tc.feet, tc.meters), func(t *testing.T) {
+            meters, err := ConvertFeetToMeters(tc.feet)
+
+            if (err != nil) {
+                t.Fatalf("Error in test %v", err)
+            }
+
+            if (meters != tc.meters){
+                t.Errorf("Given feet=%f, returned meters=%.72f, %v, want match for %.72f,nil", tc.feet, meters, err, tc.meters)
+            }
+        })
+    }
+}
+```
+
+```powershell
+programs/June/variables on  gobook [!?⇡] via 🐹 v1.16.5 on ☁️  (us-east-1)
+❯ go test -v -run TestConvertFeetToMeters
+=== RUN   TestConvertFeetToMeters
+=== RUN   TestConvertFeetToMeters/F1.000000_to_M0.304800
+=== RUN   TestConvertFeetToMeters/F99.000000_to_M30.175200
+=== RUN   TestConvertFeetToMeters/F100000000.000000_to_M30480000.000000
+=== RUN   TestConvertFeetToMeters/F999999999.000000_to_M304799999.695200
+=== RUN   TestConvertFeetToMeters/F1.000000_to_M0.304800#01
+=== RUN   TestConvertFeetToMeters/F1.121255_to_M0.341758
+=== RUN   TestConvertFeetToMeters/F0.000000_to_M0.000000
+--- PASS: TestConvertFeetToMeters (0.01s)
+    --- PASS: TestConvertFeetToMeters/F1.000000_to_M0.304800 (0.00s)
+    --- PASS: TestConvertFeetToMeters/F99.000000_to_M30.175200 (0.00s)
+    --- PASS: TestConvertFeetToMeters/F100000000.000000_to_M30480000.000000 (0.00s)
+    --- PASS: TestConvertFeetToMeters/F999999999.000000_to_M304799999.695200 (0.00s)
+    --- PASS: TestConvertFeetToMeters/F1.000000_to_M0.304800#01 (0.00s)
+    --- PASS: TestConvertFeetToMeters/F1.121255_to_M0.341758 (0.00s)
+    --- PASS: TestConvertFeetToMeters/F0.000000_to_M0.000000 (0.00s)
+PASS
+ok      debabrata.xyz/variables 0.097s
+```
+
+This ends chapter 
 
 ## Additional notes
 
