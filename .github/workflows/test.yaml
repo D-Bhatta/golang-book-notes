@@ -1,0 +1,29 @@
+# Action for testing go code
+---
+name: Test
+on:
+  push:
+    branches:
+      - master
+      - gobook
+  pull_request:
+    branches:
+      - master
+      - gobook
+jobs:
+  test:
+    strategy:
+      matrix:
+        go-version: [1.15.x, 1.16.x]
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Install Golang
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go-version }}
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Test a directory
+        working-directory: ./books/gobook.pdf/programs/July/control_structures/ctrlstructs
+        run: go test
