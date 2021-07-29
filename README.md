@@ -9,3 +9,4 @@ Notes by following golang books
 - `setup` is repository setup
 - `feat` is feature
 - `ref` is refactor
+- `ci` is CI workflows
