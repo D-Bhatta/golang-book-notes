@@ -15,6 +15,7 @@ Book by Caleb Doxsey.
     - [Switch statement](#switch-statement)
   - [Exercise Programs: Chapter 5](#exercise-programs-chapter-5)
     - [All numbers evenly divisible by 3 between 1 and 100](#all-numbers-evenly-divisible-by-3-between-1-and-100)
+    - [Fizz buzz 1 to 100](#fizz-buzz-1-to-100)
   - [Additional notes](#additional-notes)
     - [Language specific](#language-specific)
 
@@ -410,6 +411,322 @@ func DivBy3Util(end int) ([]int, error) {
 	return numbers, nil
 }
 ```
+
+### Fizz buzz 1 to 100
+
+Print numbers from 1 to 100, on every multiple of 3 print "Fizz" instead, on every multiple of 5 print "Buzz" instead, and on every multiple of 3 and 5 print "FizzBuzz" instead.
+
+- We create a skeleton file in `fizz_buzz.go`
+
+```go
+// fizz_buzz.go
+package ctrlstructs
+
+import (
+    "fmt"
+)
+
+func PrintFizzBuzz(){
+    // TODO: Call FizzBuzz and print the data
+    fmt.Print("")
+}
+
+/* Returns a string slice from 1 to n of FizzBuzz */
+func FizzBuzzUtil(n int) ([]string, error){
+    return []string{},nil
+}
+```
+
+- We create a skeleton test file in `fizz_buzz_test.go`
+
+```go
+// fizz_buzz_test.go
+package ctrlstructs
+
+import (
+	"fmt"
+	"testing"
+)
+
+func TestFizzBuzzUtil(t *testing.T) {
+	fizz_array := []struct {
+		n         int
+		fizz_buzz []string
+	}{
+		{1, []string{"1"}},
+	}
+
+    for _, tc := range fizz_array {
+        t.Run(fmt.Sprintf("N%d", tc.n), func(t *testing.T) {
+            fizz_buzz, err := FizzBuzzUtil(tc.n)
+            
+            if err != nil {
+                t.Fatalf("Error in test %v", err)
+            }
+            
+            if len(fizz_buzz) != len(tc.fizz_buzz) {
+                t.Fatalf("Given n=%d, returned len(fizz_buzz)=%d, %v, want match for len(fizz_buzz)=%d, nil", tc.n, len(fizz_buzz),err, len(tc.fizz_buzz))
+            } else {
+                for i:= 0; i < len(fizz_buzz); i++{
+                    if fizz_buzz[i] != tc.fizz_buzz[i] {
+                        t.Errorf("Given n=%d, returned fizz_buzz[%d]=%s, %v, want match for fizz_buzz[%d]=%s, nil", tc.n, i, fizz_buzz[i], err, i, tc.fizz_buzz[i])
+                    }
+                }
+            }
+        })
+    }
+}
+```
+
+- We populate the test cases
+
+```go
+	fizz_array := []struct {
+		n         int
+		fizz_buzz []string
+        err_expected error
+	}{
+		{1, []string{"1"}, nil},
+		{10, []string{"1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8", "Fizz", "Buzz"}, nil},
+		{100, []string{"1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8", "Fizz", "Buzz", "11", "Fizz", "13", "14", "FizzBuzz", "16", "17", "Fizz", "19", "Buzz", "Fizz", "22", "23", "Fizz", "Buzz", "26", "Fizz", "28", "29", "FizzBuzz", "31", "32", "Fizz", "34", "Buzz", "Fizz", "37", "38", "Fizz", "Buzz", "41", "Fizz", "43", "44", "FizzBuzz", "46", "47", "Fizz", "49", "Buzz", "Fizz", "52", "53", "Fizz", "Buzz", "56", "Fizz", "58", "59", "FizzBuzz", "61", "62", "Fizz", "64", "Buzz", "Fizz", "67", "68", "Fizz", "Buzz", "71", "Fizz", "73", "74", "FizzBuzz", "76", "77", "Fizz", "79", "Buzz", "Fizz", "82", "83", "Fizz", "Buzz", "86", "Fizz", "88", "89", "FizzBuzz", "91", "92", "Fizz", "94", "Buzz", "Fizz", "97", "98", "Fizz", "Buzz"}, nil},
+        {-1, []string{}, ErrInvalidInput},
+        {0, []string{}, nil},
+	}
+```
+
+- We run the test with `go test -v -run TestFizzBuzzUtil`
+
+```powershell
+July/control_structures/ctrlstructs on  gobook [!?⇡] via 🐹 v1.16.6 on ☁️  (us-east-1) took 18s
+❯ go test -v -run TestFizzBuzzUtil
+=== RUN   TestFizzBuzzUtil
+=== RUN   TestFizzBuzzUtil/N1
+    fizz_buzz_test.go:30: Given n=1, returned len(fizz_buzz)=0, <nil>, want match for len(fizz_buzz)=1, nil
+=== RUN   TestFizzBuzzUtil/N10
+    fizz_buzz_test.go:30: Given n=10, returned len(fizz_buzz)=0, <nil>, want match for len(fizz_buzz)=10, nil
+=== RUN   TestFizzBuzzUtil/N100
+    fizz_buzz_test.go:30: Given n=100, returned len(fizz_buzz)=0, <nil>, want match for len(fizz_buzz)=100, nil
+=== RUN   TestFizzBuzzUtil/N-1
+    fizz_buzz_test.go:26: Error in test <nil>
+--- FAIL: TestFizzBuzzUtil (0.01s)
+    --- FAIL: TestFizzBuzzUtil/N1 (0.00s)
+    --- FAIL: TestFizzBuzzUtil/N10 (0.00s)
+    --- FAIL: TestFizzBuzzUtil/N100 (0.00s)
+    --- FAIL: TestFizzBuzzUtil/N-1 (0.00s)
+    --- PASS: TestFizzBuzzUtil/N0 (0.00s)
+FAIL
+exit status 1
+FAIL    debabrata.xyz/ctrlstructs       0.070s
+
+July/control_structures/ctrlstructs on  gobook [!?⇡] via 🐹 v1.16.6 on ☁️  (us-east-1)
+❯
+```
+
+- We write code for the error case first
+
+```go
+/* Returns a string slice from 1 to n of FizzBuzz */
+func FizzBuzzUtil(n int) ([]string, error) {
+    if n < 0 {
+        return []string{}, ErrInvalidInput
+    }
+	return []string{}, nil
+}
+```
+
+- We run the test with `go test -v -run TestFizzBuzzUtil`
+
+```powershell
+July/control_structures/ctrlstructs on  gobook [!?⇡] via 🐹 v1.16.6 on ☁️  (us-east-1) took 5s
+❯ go test -v -run TestFizzBuzzUtil
+=== RUN   TestFizzBuzzUtil
+=== RUN   TestFizzBuzzUtil/N1
+    fizz_buzz_test.go:30: Given n=1, returned len(fizz_buzz)=0, <nil>, want match for len(fizz_buzz)=1, nil        
+=== RUN   TestFizzBuzzUtil/N10
+    fizz_buzz_test.go:30: Given n=10, returned len(fizz_buzz)=0, <nil>, want match for len(fizz_buzz)=10, nil      
+=== RUN   TestFizzBuzzUtil/N100
+    fizz_buzz_test.go:30: Given n=100, returned len(fizz_buzz)=0, <nil>, want match for len(fizz_buzz)=100, nil    
+=== RUN   TestFizzBuzzUtil/N-1
+--- FAIL: TestFizzBuzzUtil (0.01s)
+    --- FAIL: TestFizzBuzzUtil/N1 (0.00s)
+    --- FAIL: TestFizzBuzzUtil/N10 (0.00s)
+    --- FAIL: TestFizzBuzzUtil/N100 (0.00s)
+    --- PASS: TestFizzBuzzUtil/N-1 (0.00s)
+    --- PASS: TestFizzBuzzUtil/N0 (0.00s)
+FAIL
+exit status 1
+FAIL    debabrata.xyz/ctrlstructs       0.325s
+
+July/control_structures/ctrlstructs on  gobook [!?⇡] via 🐹 v1.16.6 on ☁️  (us-east-1) took 3s
+❯
+```
+
+- We write code for the `N1` test case
+
+```go
+/* Returns a string slice from 1 to n of FizzBuzz */
+func FizzBuzzUtil(n int) ([]string, error) {
+	if n < 0 {
+		return []string{}, ErrInvalidInput
+	}
+
+	fizz_buzz := []string{}
+
+	for i := 1; i <= n; i++ {
+		fizz_buzz = append(fizz_buzz, strconv.Itoa(i))
+	}
+
+	return fizz_buzz, nil
+}
+```
+
+- We run the test with `go test -v -run TestFizzBuzzUtil`
+
+```powershell
+July/control_structures/ctrlstructs on  gobook [!?⇡] via 🐹 v1.16.6 on ☁️  (us-east-1) took 3s
+❯ go test -v -run TestFizzBuzzUtil
+=== RUN   TestFizzBuzzUtil
+=== RUN   TestFizzBuzzUtil/N1
+=== RUN   TestFizzBuzzUtil/N10
+    fizz_buzz_test.go:34: Given n=10, returned fizz_buzz[2]=3, <nil>, want match for fizz_buzz[2]=Fizz, nil        
+    fizz_buzz_test.go:34: Given n=10, returned fizz_buzz[4]=5, <nil>, want match for fizz_buzz[4]=Buzz, nil        
+    ...       
+=== RUN   TestFizzBuzzUtil/N100
+    fizz_buzz_test.go:34: Given n=100, returned fizz_buzz[2]=3, <nil>, want match for fizz_buzz[2]=Fizz, nil       
+    fizz_buzz_test.go:34: Given n=100, returned fizz_buzz[4]=5, <nil>, want match for fizz_buzz[4]=Buzz, nil
+    ...
+=== RUN   TestFizzBuzzUtil/N-1
+--- FAIL: TestFizzBuzzUtil (0.15s)
+    --- PASS: TestFizzBuzzUtil/N1 (0.00s)
+    --- FAIL: TestFizzBuzzUtil/N10 (0.02s)
+    --- FAIL: TestFizzBuzzUtil/N100 (0.12s)
+    --- PASS: TestFizzBuzzUtil/N-1 (0.00s)
+    --- PASS: TestFizzBuzzUtil/N0 (0.00s)
+FAIL
+exit status 1
+FAIL    debabrata.xyz/ctrlstructs       2.366s
+
+July/control_structures/ctrlstructs on  gobook [!?⇡] via 🐹 v1.16.6 on ☁️  (us-east-1) took 7s
+❯
+```
+
+- We write code for the `N10` case
+
+```go
+/* Returns a string slice from 1 to n of FizzBuzz */
+/* n must be 0 or greater */
+func FizzBuzzUtil(n int) ([]string, error) {
+	if n < 0 {
+		return []string{}, ErrInvalidInput
+	}
+
+	fizz_buzz := []string{}
+
+	for i := 1; i <= n; i++ {
+		if i%3 == 0 {
+			fizz_buzz = append(fizz_buzz, "Fizz")
+			continue
+		}
+		if i%5 == 0 {
+			fizz_buzz = append(fizz_buzz, "Buzz")
+			continue
+		}
+		fizz_buzz = append(fizz_buzz, strconv.Itoa(i))
+	}
+
+	return fizz_buzz, nil
+}
+```
+
+- We run the test with `go test -v -run TestFizzBuzzUtil`
+
+```powershell
+July/control_structures/ctrlstructs on  gobook [!?⇡] via 🐹 v1.16.6 on ☁️  (us-east-1) took 14s 
+❯ go test -v -run TestFizzBuzzUtil
+=== RUN   TestFizzBuzzUtil
+=== RUN   TestFizzBuzzUtil/N1
+=== RUN   TestFizzBuzzUtil/N10
+=== RUN   TestFizzBuzzUtil/N100
+    fizz_buzz_test.go:35: Given n=100, returned fizz_buzz[14]=Fizz, <nil>, want match for fizz_buzz[14]=FizzBuzz, nil
+    fizz_buzz_test.go:35: Given n=100, returned fizz_buzz[29]=Fizz, <nil>, want match for fizz_buzz[29]=FizzBuzz, nil
+    fizz_buzz_test.go:35: Given n=100, returned fizz_buzz[44]=Fizz, <nil>, want match for fizz_buzz[44]=FizzBuzz, nil
+    fizz_buzz_test.go:35: Given n=100, returned fizz_buzz[59]=Fizz, <nil>, want match for fizz_buzz[59]=FizzBuzz, nil
+    fizz_buzz_test.go:35: Given n=100, returned fizz_buzz[74]=Fizz, <nil>, want match for fizz_buzz[74]=FizzBuzz, nil
+    fizz_buzz_test.go:35: Given n=100, returned fizz_buzz[89]=Fizz, <nil>, want match for fizz_buzz[89]=FizzBuzz, nil
+=== RUN   TestFizzBuzzUtil/N-1
+=== RUN   TestFizzBuzzUtil/N0
+--- FAIL: TestFizzBuzzUtil (0.07s)
+    --- PASS: TestFizzBuzzUtil/N1 (0.00s)
+    --- PASS: TestFizzBuzzUtil/N10 (0.00s)
+    --- FAIL: TestFizzBuzzUtil/N100 (0.06s)
+    --- PASS: TestFizzBuzzUtil/N-1 (0.00s)
+    --- PASS: TestFizzBuzzUtil/N0 (0.00s)
+FAIL
+exit status 1
+FAIL    debabrata.xyz/ctrlstructs       0.405s
+
+July/control_structures/ctrlstructs on  gobook [!?⇡] via 🐹 v1.16.6 on ☁️  (us-east-1) took 4s
+❯
+```
+
+- We write the code for the `N100` test case
+
+```go
+// Returns a string slice from 1 to n of FizzBuzz
+// n must be 0 or greater
+func FizzBuzzUtil(n int) ([]string, error) {
+	if n < 0 {
+		return []string{}, ErrInvalidInput
+	}
+
+	fizz_buzz := []string{}
+
+	for i := 1; i <= n; i++ {
+		if i%3 == 0 && i%5 == 0 {
+			fizz_buzz = append(fizz_buzz, "FizzBuzz")
+			continue
+		}
+		if i%3 == 0 {
+			fizz_buzz = append(fizz_buzz, "Fizz")
+			continue
+		}
+		if i%5 == 0 {
+			fizz_buzz = append(fizz_buzz, "Buzz")
+			continue
+		}
+		fizz_buzz = append(fizz_buzz, strconv.Itoa(i))
+	}
+
+	return fizz_buzz, nil
+}
+```
+
+- We run the test with `go test -v -run TestFizzBuzzUtil`
+
+```powershell
+July/control_structures/ctrlstructs on  gobook [!?⇡] via 🐹 v1.16.6 on ☁️  (us-east-1) took 4s
+❯ go test -v -run TestFizzBuzzUtil
+=== RUN   TestFizzBuzzUtil
+=== RUN   TestFizzBuzzUtil/N1
+=== RUN   TestFizzBuzzUtil/N10
+=== RUN   TestFizzBuzzUtil/N100
+=== RUN   TestFizzBuzzUtil/N-1
+=== RUN   TestFizzBuzzUtil/N0
+--- PASS: TestFizzBuzzUtil (0.01s)
+    --- PASS: TestFizzBuzzUtil/N1 (0.00s)
+    --- PASS: TestFizzBuzzUtil/N10 (0.00s)
+    --- PASS: TestFizzBuzzUtil/N100 (0.00s)
+    --- PASS: TestFizzBuzzUtil/N-1 (0.00s)
+    --- PASS: TestFizzBuzzUtil/N0 (0.00s)
+PASS
+ok      debabrata.xyz/ctrlstructs       0.498s
+
+July/control_structures/ctrlstructs on  gobook [!?⇡] via 🐹 v1.16.6 on ☁️  (us-east-1) took 4s
+❯
+```
+
+- The good thing about TDD is that you can focus on the code one test case at a time.
+- This greatly reduces the cognitive load.
 
 ## Additional notes
 
