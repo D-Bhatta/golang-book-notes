@@ -4,11 +4,11 @@ name: Test
 on:
   push:
     branches:
-      - master
+      - main
       - gobook
   pull_request:
     branches:
-      - master
+      - main
       - gobook
 jobs:
   test:
