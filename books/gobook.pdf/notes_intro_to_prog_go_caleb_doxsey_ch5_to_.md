@@ -16,6 +16,7 @@ Book by Caleb Doxsey.
   - [Exercise Programs: Chapter 5](#exercise-programs-chapter-5)
     - [All numbers evenly divisible by 3 between 1 and 100](#all-numbers-evenly-divisible-by-3-between-1-and-100)
     - [Fizz buzz 1 to 100](#fizz-buzz-1-to-100)
+  - [Arrays, Slices and Maps](#arrays-slices-and-maps)
   - [Additional notes](#additional-notes)
     - [Language specific](#language-specific)
 
@@ -727,6 +728,70 @@ July/control_structures/ctrlstructs on  gobook [!?⇡] via 🐹 v1.16.6 on �
 
 - The good thing about TDD is that you can focus on the code one test case at a time.
 - This greatly reduces the cognitive load.
+
+## Arrays, Slices and Maps
+
+- Arrays are numbered sequence data types.
+- They have a fixed length, designated during compilation.
+- They have a fixed type.
+- Arrays can be created as `<var-name> [<length>]<type>`
+
+```go
+// array_1.go
+package main
+
+import "fmt"
+
+func main() {
+	var numbers [5]float64
+
+	numbers[0] = 98
+
+	var total float64 = 0
+	for i := 0; i < len(numbers); i++ {
+		total += numbers[i]
+	}
+	fmt.Println(total / float64(len(numbers)))
+
+    var other_total float64= 0
+    for _,value := range numbers {
+        other_total += value
+    }
+    fmt.Println(other_total/float64(len(numbers)))
+
+    second_array := [5]float64{ 98, 0, 0, 10, 11}
+    fmt.Println(second_array)
+
+    third_array := [3]string{
+        "hello",
+        "I",
+        "am",
+    }
+
+    fmt.Println(third_array)
+}
+
+```
+
+- Running the above example program:
+
+```powershell
+gobook.pdf/programs/august on  gobook [!?⇡] via 🐹 v1.17 on ☁️  (us-east-1)
+❯ go run .\array_1.go
+19.6
+19.6
+[98 0 0 10 11]
+[hello I am]
+
+gobook.pdf/programs/august on  gobook [!?⇡] via 🐹 v1.17 on ☁️  (us-east-1)
+❯
+```
+
+- We can get the length of an array with the `len` function, just like python.
+- The `range` keyword enumerates over the entire range of the array and returns a position and a value for each element.
+- We can use `_` to tell the compiler that we don't need a particular return type.
+- We can also create arrays using the `<var-name> := [<length>]<type>{<value>, <value>}`
+- They can also be broken up by comma.
 
 ## Additional notes
 
