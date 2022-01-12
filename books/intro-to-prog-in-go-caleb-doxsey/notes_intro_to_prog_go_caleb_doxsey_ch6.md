@@ -845,8 +845,6 @@ func BenchmarkSmallest(b *testing.B){
 
 ```
 
-- 
-
 ## Additional notes
 
 ### Language specific
