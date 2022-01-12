@@ -1,4 +1,4 @@
-# An Introduction to Programming in Go: notes for chapters 1-4
+# An Introduction to Programming in Go: notes for chapters 5
 
 <!-- TODO: Fix the H1 heading -->
 Book by Caleb Doxsey.
@@ -7,7 +7,7 @@ Book by Caleb Doxsey.
 
 ## Sections
 
-- [An Introduction to Programming in Go: notes for chapters 1-4](#an-introduction-to-programming-in-go-notes-for-chapters-1-4)
+- [An Introduction to Programming in Go: notes for chapters 5](#an-introduction-to-programming-in-go-notes-for-chapters-5)
   - [Sections](#sections)
   - [Notes](#notes)
   - [Control Structures](#control-structures)

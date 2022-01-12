@@ -1,4 +1,4 @@
-# An Introduction to Programming in Go: notes for chapters 1-4
+# An Introduction to Programming in Go: notes for chapters 6
 
 Book by Caleb Doxsey.
 
@@ -6,7 +6,7 @@ Book by Caleb Doxsey.
 
 ## Sections
 
-- [An Introduction to Programming in Go: notes for chapters 1-4](#an-introduction-to-programming-in-go-notes-for-chapters-1-4)
+- [An Introduction to Programming in Go: notes for chapters 6](#an-introduction-to-programming-in-go-notes-for-chapters-6)
   - [Sections](#sections)
   - [Notes](#notes)
   - [Arrays, Slices and Maps](#arrays-slices-and-maps)
