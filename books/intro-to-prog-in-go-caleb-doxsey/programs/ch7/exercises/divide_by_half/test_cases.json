@@ -1,0 +1,165 @@
+{
+  "tests": [
+    {
+      "test_id": 1,
+      "num": -9223372036854775807,
+      "half_num": -4611686018427387903,
+      "even": false,
+      "err_expected": null
+    },
+    {
+      "test_id": 2,
+      "num": -9000000000000000000,
+      "half_num": -4500000000000000000,
+      "even": true,
+      "err_expected": null
+    },
+    {
+      "test_id": 3,
+      "num": -1000,
+      "half_num": -500,
+      "even": true,
+      "err_expected": null
+    },
+    {
+      "test_id": 4,
+      "num": -100,
+      "half_num": -50,
+      "even": true,
+      "err_expected": null
+    },
+    {
+      "test_id": 5,
+      "num": -99,
+      "half_num": -49,
+      "even": false,
+      "err_expected": null
+    },
+    {
+      "test_id": 6,
+      "num": 1,
+      "half_num": 0,
+      "even": false,
+      "err_expected": null
+    },
+    {
+      "test_id": 7,
+      "num": 2,
+      "half_num": 1,
+      "even": true,
+      "err_expected": null
+    },
+    {
+      "test_id": 8,
+      "num": 3,
+      "half_num": 1,
+      "even": false,
+      "err_expected": null
+    },
+    {
+      "test_id": 9,
+      "num": 5,
+      "half_num": 2,
+      "even": false,
+      "err_expected": null
+    },
+    {
+      "test_id": 10,
+      "num": 10,
+      "half_num": 5,
+      "even": true,
+      "err_expected": null
+    },
+    {
+      "test_id": 11,
+      "num": 11,
+      "half_num": 5,
+      "even": false,
+      "err_expected": null
+    },
+    {
+      "test_id": 12,
+      "num": 15,
+      "half_num": 7,
+      "even": false,
+      "err_expected": null
+    },
+    {
+      "test_id": 13,
+      "num": 19,
+      "half_num": 9,
+      "even": false,
+      "err_expected": null
+    },
+    {
+      "test_id": 14,
+      "num": 25,
+      "half_num": 12,
+      "even": false,
+      "err_expected": null
+    },
+    {
+      "test_id": 15,
+      "num": 27,
+      "half_num": 13,
+      "even": false,
+      "err_expected": null
+    },
+    {
+      "test_id": 16,
+      "num": 99,
+      "half_num": 49,
+      "even": false,
+      "err_expected": null
+    },
+    {
+      "test_id": 17,
+      "num": 100,
+      "half_num": 50,
+      "even": true,
+      "err_expected": null
+    },
+    {
+      "test_id": 18,
+      "num": 125,
+      "half_num": 62,
+      "even": false,
+      "err_expected": null
+    },
+    {
+      "test_id": 19,
+      "num": 136,
+      "half_num": 68,
+      "even": true,
+      "err_expected": null
+    },
+    {
+      "test_id": 20,
+      "num": 936,
+      "half_num": 468,
+      "even": true,
+      "err_expected": null
+    },
+    {
+      "test_id": 21,
+      "num": 1000,
+      "half_num": 500,
+      "even": true,
+      "err_expected": null
+    },
+    {
+      "test_id": 22,
+      "num": 1000000000000000000,
+      "half_num": 500000000000000000,
+      "even": true,
+      "err_expected": null
+    },
+    {
+      "test_id": 23,
+      "num": 9223372036854775806,
+      "half_num": 4611686018427387903,
+      "even": true,
+      "err_expected": null
+    }
+  ]
+}
