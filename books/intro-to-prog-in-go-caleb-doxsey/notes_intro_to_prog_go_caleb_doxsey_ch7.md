@@ -18,6 +18,7 @@ Book by Caleb Doxsey.
     - [Panic and Recover](#panic-and-recover)
   - [Exercises: Chapter 7](#exercises-chapter-7)
     - [Question 2: Divide by 2 and check even or odd](#question-2-divide-by-2-and-check-even-or-odd)
+    - [Question 3: Variadic function returns largest in list of numbers](#question-3-variadic-function-returns-largest-in-list-of-numbers)
   - [Additional notes](#additional-notes)
     - [Language specific](#language-specific)
 
@@ -136,7 +137,7 @@ func MultipleReturnedValues() (int, int) {
 
 ## The `...` operator
 
-- Using `...` before the type indicator name of the last parameter in a function, we can indicate that this parameter takes one or more of that type of parameters.
+- Using `...` before the type indicator name of the last parameter in a function, we can indicate that this parameter takes one or more of that type of parameters. This type of function is called a **variadic** function.
 - If we do `args ... int` we specify that there can be multiple `int` variables in the `args` variable, which is of type `[]int`, which is a slice of ints.
 - We can also pass a slice using `...` after the name of the slice like `nums...`.
 - We can check the type of a variable using `reflect.TypeOf`.
@@ -204,7 +205,7 @@ func main(){
 ```
 
 ```powershell
-intro-to-prog-in-go-caleb-doxsey/programs/ch7 on  gobook [!?] via 🐹 v1.17.6 on ☁️  (us-east-1) 
+intro-to-prog-in-go-caleb-doxsey/programs/ch7 on  gobook [!?] via 🐹 v1.17.6 on ☁️  (us-east-1)
 ❯ go run functions5.go
 2
 
@@ -214,8 +215,8 @@ intro-to-prog-in-go-caleb-doxsey/programs/ch7 on  gobook [!?] via 🐹 v1.17.
 4
 5
 
-intro-to-prog-in-go-caleb-doxsey/programs/ch7 on  gobook [!?] via 🐹 v1.17.6 on ☁️  (us-east-1) 
-❯ 
+intro-to-prog-in-go-caleb-doxsey/programs/ch7 on  gobook [!?] via 🐹 v1.17.6 on ☁️  (us-east-1)
+❯
 ```
 
 - Here, we are creating a function and saving it to the variable `add`. It will have access to other local variables.
@@ -248,12 +249,12 @@ func makeEvenGenerator() func() uint {
 ```
 
 ```powershell
-intro-to-prog-in-go-caleb-doxsey/programs/ch7 on  gobook [!?] via 🐹 v1.17.6 on ☁️  (us-east-1) 
+intro-to-prog-in-go-caleb-doxsey/programs/ch7 on  gobook [!?] via 🐹 v1.17.6 on ☁️  (us-east-1)
 ❯ go run functions6.go
 0
 2
 
-intro-to-prog-in-go-caleb-doxsey/programs/ch7 on  gobook [!?] via 🐹 v1.17.6 on ☁️  (us-east-1) 
+intro-to-prog-in-go-caleb-doxsey/programs/ch7 on  gobook [!?] via 🐹 v1.17.6 on ☁️  (us-east-1)
 ❯
 ```
 
@@ -285,7 +286,7 @@ intro-to-prog-in-go-caleb-doxsey/programs/ch7 on  gobook [!?] via 🐹 v1.17.
 ❯ go run functions7.go
 6
 
-intro-to-prog-in-go-caleb-doxsey/programs/ch7 on  gobook [!?] via 🐹 v1.17.6 on ☁️  (us-east-1) 
+intro-to-prog-in-go-caleb-doxsey/programs/ch7 on  gobook [!?] via 🐹 v1.17.6 on ☁️  (us-east-1)
 ❯
 ```
 
@@ -405,9 +406,9 @@ panic: Intentional panic in secondFunction
 
 goroutine 1 [running]:
 main.secondFunction()
-        C:/Users/DB/Documents/Code/Go/golang-book-notes/books/intro-to-prog-in-go-caleb-doxsey/programs/ch7/functions10.go:13 +0x98      
+        C:/Users/DB/Documents/Code/Go/golang-book-notes/books/intro-to-prog-in-go-caleb-doxsey/programs/ch7/functions10.go:13 +0x98
 main.main()
-        C:/Users/DB/Documents/Code/Go/golang-book-notes/books/intro-to-prog-in-go-caleb-doxsey/programs/ch7/functions10.go:18 +0x1d      
+        C:/Users/DB/Documents/Code/Go/golang-book-notes/books/intro-to-prog-in-go-caleb-doxsey/programs/ch7/functions10.go:18 +0x1d
 exit status 2
 
 intro-to-prog-in-go-caleb-doxsey/programs/ch7 on  gobook [!?] via 🐹 v1.18 on ☁️  (us-east-1)
@@ -473,17 +474,17 @@ intro-to-prog-in-go-caleb-doxsey/programs/ch7 on  gobook [!?] via 🐹 v1.18 
 
 ### Question 2: Divide by 2 and check even or odd
 
-Write a function which takes an integer and halves it and returns true if it was even or false if it was odd. For  example half(1) should return (0, false) and half(2) should return (1, true).
+Write a function which takes an integer and halves it and returns true if it was even or false if it was odd. For example half(1) should return (0, false) and half(2) should return (1, true).
 
 - We create a module `debabrata.xyz/divide_by_half`
 
 ```powershell
-ch7/exercises/divide_by_half on  gobook [!?] on ☁️  (us-east-1) 
+ch7/exercises/divide_by_half on  gobook [!?] on ☁️  (us-east-1)
 ❯ go mod init debabrata.xyz/divide_by_half
 go: creating new go.mod: module debabrata.xyz/divide_by_half
 
-ch7/exercises/divide_by_half on  gobook [!?] via 🐹 v1.18 on ☁️  (us-east-1) 
-❯ 
+ch7/exercises/divide_by_half on  gobook [!?] via 🐹 v1.18 on ☁️  (us-east-1)
+❯
 ```
 
 - We create a skeleton file `divide_by_half.go`
@@ -519,7 +520,7 @@ func TestDivideByHalf(t *testing.T){
     } {
         {2, 1, true, nil},
     }
-    
+
     for _, tc := range num_array {
         t.Run(fmt.Sprintf("N%d", tc.num), func (t *testing.T){
             half_num, even, err := DivideByHalf(tc.num)
@@ -537,7 +538,7 @@ func TestDivideByHalf(t *testing.T){
 - We run it to make sure the test case fails
 
 ```powershell
-ch7/exercises/divide_by_half on  gobook [!?] via 🐹 v1.18 on ☁️  (us-east-1) 
+ch7/exercises/divide_by_half on  gobook [!?] via 🐹 v1.18 on ☁️  (us-east-1)
 ❯ go test -v -run TestDivideByHalf
 === RUN   TestDivideByHalf
 === RUN   TestDivideByHalf/N2
@@ -720,7 +721,6 @@ ch7/exercises/divide_by_half on  gobook [!?] via 🐹 v1.18 on ☁️  (us-ea
     }
   ]
 }
-
 ```
 
 - We create 2 structs: the `Test` struct that holds each test case, and the `Tests` struct which holds an array of `Test` structs.
@@ -812,7 +812,7 @@ func TestDivideByHalf(t *testing.T) {
 
 ```powershell
 ch7\exercises\divide_by_half on  gobook [!?] via 🐹 v1.18 on ☁️  (us-east-1) took 2s
-❯ go test -v -run TestDivideByHalf 
+❯ go test -v -run TestDivideByHalf
 === RUN   TestDivideByHalf
 === RUN   TestDivideByHalf/N1
     divide_by_half_test.go:51: Given tc.Num = -9223372036854775807, Returned halfNum = 0, even = false. Expected halfNum = -4611686018427387903, even = false
@@ -973,7 +973,297 @@ ch7\exercises\divide_by_half on  gobook [!?] via 🐹 v1.18 on ☁️  (us-ea
 
 - We can see that all the tests pass successfully.
 
+### Question 3: Variadic function returns largest in list of numbers
 
+_Write a function with one variadic parameter that finds the greatest number in a list of numbers._
+
+- We create a module `debabrata.xyz/variadic_greatest_number` with `go mod init debabrata.xyz/variadic_greatest_number`.
+
+```powershell
+ch7\exercises\variadic_greatest_number on  gobook [!?] on ☁️  (us-east-1)
+❯ go mod init debabrata.xyz/variadic_greatest_number
+go: creating new go.mod: module debabrata.xyz/variadic_greatest_number
+
+ch7\exercises\variadic_greatest_number on  gobook [!?] via 🐹 v1.19.1 on ☁️  (us-east-1)
+❯ cat go.mod
+module debabrata.xyz/variadic_greatest_number
+
+go 1.19
+
+ch7\exercises\variadic_greatest_number on  gobook [!?] via 🐹 v1.19.1 on ☁️  (us-east-1)
+❯
+```
+
+- We create a skeleton fle `variadic_greatest_number.go`.
+
+```go
+// variadic_greatest_number.go
+
+package variadic_greatest_number
+
+// find the greatest number in the list
+func GreatestNum(nums ...int64) (int64, error) {
+	return 0, nil
+}
+
+```
+
+- We create a skeleton file `variadic_greatest_number_test.go`.
+
+```go
+// variadic_greatest_number_test.go
+
+package variadic_greatest_number
+
+import (
+	"fmt"
+	"testing"
+)
+
+func TestGreatestNumber(t *testing.T) {
+	numbers := []struct {
+		ID          int64
+		NumList     []int64
+		ErrExpected error
+		GreatestNum int64
+	}{
+		{1, []int64{10, 12, 5}, nil, 12},
+	}
+
+	for _, tc := range numbers {
+		t.Run(fmt.Sprintf("N%d", tc.ID), func(t *testing.T) {
+			greatest_num, err := GreatestNumber(tc.NumList...)
+			if err != tc.ErrExpected {
+				t.Fatalf("Error in test %v. Expected error is %v", err, tc.ErrExpected)
+			}
+			if greatest_num != tc.GreatestNum {
+				t.Errorf("Returned greatest number = %d, expected greatest number %d for test case ID = %d",
+					greatest_num, tc.GreatestNum, tc.ID)
+			}
+		})
+	}
+
+}
+
+```
+
+- We run it using `go test -v -run TestGreatestNumber` to make sure the test case fails.
+
+```powershell
+ch7\exercises\variadic_greatest_number on  gobook [!?] via 🐹 v1.19.1 on ☁️  (us-east-1)
+❯ go test -v -run TestGreatestNumber
+=== RUN   TestGreatestNumber
+=== RUN   TestGreatestNumber/N1
+    variadic_greatest_number_test.go:27: Returned greatest number = 0, expected greatest number 12 for test case ID = 1
+--- FAIL: TestGreatestNumber (0.00s)
+    --- FAIL: TestGreatestNumber/N1 (0.00s)
+FAIL
+exit status 1
+FAIL    debabrata.xyz/variadic_greatest_number  0.223s
+
+ch7\exercises\variadic_greatest_number on  gobook [!?] via 🐹 v1.19.1 on ☁️  (us-east-1) took 3s
+❯
+```
+
+- We add test cases into a JSON file using the following python script:
+
+```python
+"""Generate tests for this module."""
+
+import random
+from typing import TypedDict
+import json
+
+# Limit of the largest numbered test case. LImited to int32 in go.
+LARGEST_NUM = 100_000
+SMALLEST_NUM = -10_000
+FILE_NAME = "test_cases.json"
+NUM_TEST_CASES = 100
+
+
+class TestCase(TypedDict):
+    """Contain data for each test case."""
+
+    id: int
+    largest: int
+    numbers: list[int]
+    err_expected: str | None
+
+
+def create_test_case(index: int) -> TestCase:
+    """Create a TestCase with upto 100 numbers."""
+    big = random.randint(SMALLEST_NUM, LARGEST_NUM)
+    length = random.randint(1, 100)
+    position = random.randint(0, length)
+    if position == length:
+        position = length - 1
+
+    nums = [random.randint(SMALLEST_NUM, big) for _ in range(length)]
+    nums[position] = big
+
+    test_case: TestCase = TestCase(
+        id=index, largest=big, numbers=nums, err_expected=None
+    )
+    return test_case
+
+
+tests: dict[str, list[TestCase]] = {
+    "tests": [create_test_case(index=i) for i in range(1, NUM_TEST_CASES + 1)]
+}
+
+
+tests_json: str = json.dumps(tests)
+
+with open(FILE_NAME, "w", encoding="utf-8") as fh:
+    fh.write(tests_json)
+
+```
+
+- We create 2 structs: the `Test` struct that holds each test case, and the `Tests` struct which holds an array of `Test` structs.
+
+```go
+type Test struct {
+	Id         uint64 `json:"id"`
+	LargestNum int64  `json:"largest"`
+    Numbers []int64 `json:"numbers"`
+    ErrExpected error `json:"err_expected"`
+}
+
+type Tests struct {
+    Tests []Test `json:"tests"`
+}
+```
+
+- We save the test file name to a variable.
+- We read the JSON file into a byte array. We check for errors reading from the file.
+- We create a variable of `Tests` to store the test cases.
+- We unmarshall the byte array into the memory location of the `Tests` variable. We check for errors.
+- For each test case, set an ID using `tc.Id`. We call a testing function and call `GreatestNumber`. We check if we got the expected error.
+- We then check if the resulting value is as expected.
+
+```go
+// variadic_greatest_number_test.go
+
+package variadic_greatest_number
+
+import (
+	"encoding/json"
+	"fmt"
+	"log"
+	"os"
+	"testing"
+)
+
+type Test struct {
+	Id          uint64  `json:"id"`
+	LargestNum  int64   `json:"largest"`
+	Numbers     []int64 `json:"numbers"`
+	ErrExpected error   `json:"err_expected"`
+}
+
+type Tests struct {
+	Tests []Test `json:"tests"`
+}
+
+func TestGreatestNumber(t *testing.T) {
+
+	testFileName := "test_cases.json"
+
+	jsonFile, jsonFileErr := os.ReadFile(testFileName)
+
+	if jsonFileErr != nil {
+		log.Fatalf("Error reading JSON data from test data file: %s. \nError: %v", testFileName, jsonFileErr)
+	}
+
+	var tests Tests
+
+	jsonUnmarshallErr := json.Unmarshal(jsonFile, &tests)
+
+	if jsonUnmarshallErr != nil {
+		log.Fatalf("Error unmarshalling JSON data from byte array. Error: %v", jsonUnmarshallErr)
+	}
+
+	for _, tc := range tests.Tests {
+		t.Run(fmt.Sprintf("N%d", tc.Id), func(t *testing.T) {
+			largest, err := GreatestNumber(tc.Numbers...)
+
+			if err != tc.ErrExpected {
+				t.Fatalf("Error in test ID %d: %v.\nExpected error is %v", tc.Id, err, tc.ErrExpected)
+			}
+
+			if largest != tc.LargestNum {
+				t.Errorf("Given number sequence = %d.\nReturned largest number = %d.\nExpected largest number = %d.",
+					tc.Numbers, largest, tc.LargestNum)
+			}
+		})
+	}
+}
+
+```
+
+- We run it using `go test -v -run TestGreatestNumber` to make sure the test case fails.
+
+```powershell
+ch7\exercises\variadic_greatest_number on  gobook [!?] via 🐹 v1.19.3 via 🐍 v3.11.0 on ☁️  (us-east-1) 
+❯ go test -v -run TestGreatestNumber
+=== RUN   TestGreatestNumber
+=== RUN   TestGreatestNumber/N1
+    variadic_greatest_number_test.go:51: Given number sequence = [-583 83048 56903 50238 88665 72047 82961 22070 55123 91877 88143 51333 57942 13284 43190 9819 19551 70019 19849 75261 84458 -5853 37997 59231 39788 70608 85285 -8418 -4704 14673 -6102 19922 
+66593 50569 53649 72004 94086 78343 60922 53984 63964 50124 67808].
+        Returned largest number = 0.
+        Expected largest number = 94086.
+
+...
+
+=== RUN   TestGreatestNumber/N100
+    variadic_greatest_number_test.go:51: Given number sequence = [63394 22202 42977 29039 29726 47182 30443 50394 34192 59400 30643 77067 71366 40637 -4119 15693 56867 838 330 28132 43155 53316 23292 8832 67070 42651 33470 28269 57621 21232 1243 66340 63721 27925 63708 42451 70786 60852 25917 -5315 40511 -2408].
+        Returned largest number = 0.
+        Expected largest number = 77067.
+--- FAIL: TestGreatestNumber (0.16s)
+    --- FAIL: TestGreatestNumber/N1 (0.00s)
+
+...
+
+    --- FAIL: TestGreatestNumber/N100 (0.00s)
+FAIL
+exit status 1
+FAIL    debabrata.xyz/variadic_greatest_number  0.259s
+
+ch7\exercises\variadic_greatest_number on  gobook [!?] via 🐹 v1.19.3 via 🐍 v3.11.0 on ☁️  (us-east-1) 
+❯
+```
+
+- We see the tests have failed first. To make the tests green, we write the logic to find and return the greatest number.
+
+```go
+// variadic_greatest_number.go
+
+package variadic_greatest_number
+
+// find the greatest number in the list
+func GreatestNumber(nums ...int64) (int64, error) {
+    greatest := nums[0]
+    for _, num := range nums {
+        if num > greatest{
+            greatest = num
+        }
+    }
+	return greatest, nil
+}
+
+```
+
+- We run the tests with `go test -run TestGreatestNumber`. We see they all pass.
+
+```powershell
+ch7\exercises\variadic_greatest_number on  gobook [!?] via 🐹 v1.19.3 via 🐍 v3.11.0 on ☁️  (us-east-1) 
+❯ go test -run TestGreatestNumber   
+PASS
+ok      debabrata.xyz/variadic_greatest_number  0.040s
+
+ch7\exercises\variadic_greatest_number on  gobook [!?] via 🐹 v1.19.3 via 🐍 v3.11.0 on ☁️  (us-east-1) 
+❯
+```
 
 ## Additional notes
 
