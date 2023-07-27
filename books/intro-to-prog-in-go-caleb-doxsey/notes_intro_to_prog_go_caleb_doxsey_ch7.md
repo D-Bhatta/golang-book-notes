@@ -19,6 +19,7 @@ Book by Caleb Doxsey.
   - [Exercises: Chapter 7](#exercises-chapter-7)
     - [Question 2: Divide by 2 and check even or odd](#question-2-divide-by-2-and-check-even-or-odd)
     - [Question 3: Variadic function returns largest in list of numbers](#question-3-variadic-function-returns-largest-in-list-of-numbers)
+    - [Question 4: A function that generates odd numbers](#question-4-a-function-that-generates-odd-numbers)
   - [Additional notes](#additional-notes)
     - [Language specific](#language-specific)
 
@@ -1262,6 +1263,219 @@ PASS
 ok      debabrata.xyz/variadic_greatest_number  0.040s
 
 ch7\exercises\variadic_greatest_number on  gobook [!?] via 🐹 v1.19.3 via 🐍 v3.11.0 on ☁️  (us-east-1) 
+❯
+```
+
+### Question 4: A function that generates odd numbers
+
+_Using makeEvenGenerator as an example, write a makeOddGenerator function that generates odd numbers._
+
+- We create a module `debabrata.xyz/make_odd_generator` with `go mod init debabrata.xyz/make_odd_generator`.
+
+```powershell
+❯ go mod init debabrata.xyz/make_odd_generator
+go: creating new go.mod: module debabrata.xyz/make_odd_generator
+
+ch7\exercises\make_odd_generator on  gobook [!?] via 🐹 v1.19.3 on ☁️  (us-east-1) 
+❯ ls
+
+
+    Directory: G:\Code\Go\golang-book-notes\books\intro-to-prog-in-go-caleb-doxsey\programs\ch7\exercises\make_odd_generator    
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----         01-Dec-22     05:32             49 go.mod
+
+
+
+ch7\exercises\make_odd_generator on  gobook [!?] via 🐹 v1.19.3 on ☁️  (us-east-1) 
+❯ cat .\go.mod
+module debabrata.xyz/make_odd_generator
+
+go 1.19
+
+ch7\exercises\make_odd_generator on  gobook [!?] via 🐹 v1.19.3 on ☁️  (us-east-1) 
+❯
+```
+
+- We create a skeleton file `make_odd_generator.go`.
+
+```go
+// make_odd_generator.go
+
+package make_odd_generator
+
+// generate odd numbers
+func GenerateOdd() func() uint {
+	return func () uint {
+        return 2
+    }
+}
+
+func GenerateOddNumList(start uint64, size uint64) ([]uint, error) {
+    var numList []uint
+    numList = append(numList, 1)
+    return numList, nil
+}
+```
+
+- We create a skeleton file `make_odd_generator_test.go.`
+
+```go
+// make_odd_generator_test.go
+
+package make_odd_generator
+
+import (
+	"fmt"
+	"testing"
+)
+
+func TestGenerateOddNumList(t *testing.T) {
+
+	odds := []struct {
+		ID          uint64
+		StartNum    uint64
+		ListSize    uint64
+		NumList     []uint64
+		ErrExpected error
+	}{
+		{1, 1, 11, []uint64{1}, nil},
+	}
+
+	for _, tc := range odds {
+		t.Run(fmt.Sprintf("N%d", tc.ID), func(t *testing.T) {
+			num_list, err := GenerateOddNumList(tc.StartNum, tc.ListSize)
+			if err != tc.ErrExpected {
+				t.Fatalf("Error in test %v.\nExpected error is %v.", err, tc.ErrExpected)
+			}
+			if len(num_list) != len(tc.NumList) {
+				t.Fatalf("Returned length of number list = %d, expected length of number list = %d for test case ID = %d",
+					len(num_list), len(tc.NumList), tc.ID)
+			}
+		})
+	}
+
+}
+```
+
+- We run it using `go test -v -run TestGreatestNumber` to make sure the test case fails.
+
+```powershell
+ch7\exercises\make_odd_generator on  gobook [!?] via 🐹 v1.19.4 on ☁️  (us-east-1) took 2s
+❯ go test -v -run TestGenerateOddNumList
+=== RUN   TestGenerateOddNumList
+=== RUN   TestGenerateOddNumList/N1
+    make_odd_generator_test.go:29: Returned length of number list = 1, expected length of number list = 11 for test case 
+--- FAIL: TestGenerateOddNumList (0.00s)
+    --- FAIL: TestGenerateOddNumList/N1 (0.00s)
+FAIL
+exit status 1
+FAIL    debabrata.xyz/make_odd_generator        0.287s
+
+```
+
+- We add test cases and checks to the test.
+
+```go
+// make_odd_generator_test.go
+
+package make_odd_generator
+
+import (
+	"fmt"
+	"testing"
+)
+
+func TestGenerateOddNumList(t *testing.T) {
+
+	odds := []struct {
+		ID          uint64
+		StartNum    uint64
+		ListSize    uint64
+		NumList     []uint64
+		ErrExpected error
+	}{
+		{1, 1, 11, []uint64{1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21}, nil},
+        {2, 3, 6, []uint64{3, 5, 7, 9, 11, 13}, nil},
+        {3, 11, 5, []uint64{11, 13, 15, 17, 19}, nil},
+        {4, 13, 0, []uint64{}, nil},
+	}
+
+	for _, tc := range odds {
+		t.Run(fmt.Sprintf("N%d", tc.ID), func(t *testing.T) {
+			num_list, err := GenerateOddNumList(tc.StartNum, tc.ListSize)
+			if err != tc.ErrExpected {
+				t.Fatalf("Error in test %v.\nExpected error is %v.", err, tc.ErrExpected)
+			}
+			if len(num_list) != len(tc.NumList) {
+				t.Fatalf("Returned length of number list = %d, expected length of number list = %d for test case ID = %d",
+					len(num_list), len(tc.NumList), tc.ID)
+			}
+            for idx, _ := range tc.NumList {
+                if num_list[idx] != uint(tc.NumList[idx]){
+                    t.Errorf("Returned list %v doesn't match expected list %v at idx = %d", num_list, tc.NumList, idx)
+                }
+            }
+		})
+	}
+
+}
+
+```
+
+- We run them to make sure they all fail.
+
+- We write the code to create an odd number generator.
+
+```go
+// make_odd_generator.go
+
+package make_odd_generator
+
+// generate odd number
+func GenerateOdd(start uint) func() uint {
+    num := uint(start)
+	return func () (ret uint) {
+        ret = num
+        num += 2
+        return
+    }
+}
+
+func GenerateOddNumList(start uint64, size uint64) ([]uint, error) {
+    if size == 0 {
+        return []uint{}, nil
+    }
+    nextNum := GenerateOdd(uint(start))
+    var numList []uint
+    for i:=uint64(0); i<size; i++ {
+        numList = append(numList, nextNum())
+    }
+    return numList, nil
+}
+```
+
+- We run the tests again, and they all pass.
+
+```powershell
+ch7\exercises\make_odd_generator on  gobook [!?] via 🐹 v1.19.4 on ☁️  (us-east-1)
+❯ go test -v -run TestGenerateOddNumList
+=== RUN   TestGenerateOddNumList
+=== RUN   TestGenerateOddNumList/N1
+=== RUN   TestGenerateOddNumList/N2
+=== RUN   TestGenerateOddNumList/N3
+=== RUN   TestGenerateOddNumList/N4
+--- PASS: TestGenerateOddNumList (0.00s)
+    --- PASS: TestGenerateOddNumList/N1 (0.00s)
+    --- PASS: TestGenerateOddNumList/N2 (0.00s)
+    --- PASS: TestGenerateOddNumList/N3 (0.00s)
+    --- PASS: TestGenerateOddNumList/N4 (0.00s)
+PASS
+ok      debabrata.xyz/make_odd_generator        0.452s
+
+ch7\exercises\make_odd_generator on  gobook [!?] via 🐹 v1.19.4 on ☁️  (us-east-1) 
 ❯
 ```
 
