@@ -20,6 +20,7 @@ Book by Caleb Doxsey.
     - [Question 2: Divide by 2 and check even or odd](#question-2-divide-by-2-and-check-even-or-odd)
     - [Question 3: Variadic function returns largest in list of numbers](#question-3-variadic-function-returns-largest-in-list-of-numbers)
     - [Question 4: A function that generates odd numbers](#question-4-a-function-that-generates-odd-numbers)
+    - [Question 5: A function that recursively generates fibonacci numbers](#question-5-a-function-that-recursively-generates-fibonacci-numbers)
   - [Additional notes](#additional-notes)
     - [Language specific](#language-specific)
 
@@ -1476,6 +1477,156 @@ PASS
 ok      debabrata.xyz/make_odd_generator        0.452s
 
 ch7\exercises\make_odd_generator on  gobook [!?] via 🐹 v1.19.4 on ☁️  (us-east-1) 
+❯
+```
+
+### Question 5: A function that recursively generates fibonacci numbers
+
+*Write a recursive function which can find fib(n).*
+
+- We create a module `debabrata.xyz/recursive_fibonacci` with `go mod init debabrata.xyz/recursive_fibonacci`.
+
+```powershell
+ch7\exercises\recursive_fibonacci on  gobook [!] on ☁️  (us-east-1)
+❯ go mod init debabrata.xyz/recursive_fibonacci
+go: creating new go.mod: module debabrata.xyz/recursive_fibonacci
+
+ch7\exercises\recursive_fibonacci on  gobook [!?] via 🐹 v1.19.4 on ☁️  (us-east-1) 
+❯
+```
+
+- We create a skeleton file `recursive_fibonacci.go`.
+
+```go
+// recursive_fibonacci.go
+
+package recursivefibonacci
+
+func RecursiveFibonacci(n uint64) (uint64, error) {
+	return 4, nil
+}
+
+```
+
+- We create a skeleton test file `recursive_fibonacci_test.go`
+
+```go
+// recursive_fibonacci_test.go
+
+package recursivefibonacci
+
+import (
+	"fmt"
+	"testing"
+)
+
+func TestRecursiveFibonacci(t *testing.T) {
+	numbers := []struct {
+		ID           uint
+		InputNumber  uint64
+		OutputNumber uint64
+		ErrExpected  error
+	}{
+		{1, 1, 1, nil},
+	}
+
+	for _, testCase := range numbers {
+		t.Run(fmt.Sprintf("Test Case: %d:", testCase.ID), func(t *testing.T) {
+			outputNumber, err := RecursiveFibonacci(testCase.InputNumber)
+			if err != testCase.ErrExpected {
+				t.Fatalf("Error in test: %v.\nError expected: %v", err, testCase.ErrExpected)
+			}
+			if outputNumber != testCase.OutputNumber {
+				t.Errorf("Returned output number: %d does not match expected output number: %d for input number %d.", outputNumber, testCase.OutputNumber, testCase.InputNumber)
+			}
+		})
+	}
+}
+
+```
+
+- We run it using `go test -v -run TestRecursiveFibonacci` to make sure the test fails.
+
+```terminal
+
+ch7\exercises\recursive_fibonacci on  gobook [!?] via 🐹 v1.21.0 on ☁️  (us-east-1) took 4s
+❯ go test -v -run TestRecursiveFibonacci
+=== RUN   TestRecursiveFibonacci
+=== RUN   TestRecursiveFibonacci/Case:_1:
+    recursive_fibonacci_test.go:27: Returned output number: 0 does not match expected output number: 1 for input number 1.
+--- FAIL: TestRecursiveFibonacci (0.00s)
+    --- FAIL: TestRecursiveFibonacci/Test_Case:_1: (0.00s)
+FAIL
+exit status 1
+FAIL    debabrata.xyz/recursive_fibonacci       0.649s
+
+ch7\exercises\recursive_fibonacci on  gobook [!?] via 🐹 v1.21.0 on ☁️  (us-east-1) 
+❯
+
+```
+
+- We add test cases and run the tests to make sure they all fail.
+
+```golang
+// recursive_fibonacci_test.go
+
+	numbers := []struct {
+		ID           uint
+		InputNumber  uint64
+		OutputNumber uint64
+	}{
+		{1, 0, 0},
+		{2, 1, 1},
+        {3, 2, 1},
+        {4, 10, 55},
+        {5, 15, 610},
+        {6, 30, 832040},
+	}
+
+```
+
+- We write a recursive fibonacci function.
+
+```golang
+// recursive_fibonacci.go
+
+package recursivefibonacci
+
+func RecursiveFibonacci(n uint64) (uint64) {
+	if n == 0 {
+		return 0
+	}
+	if n == 1 {
+		return 1
+	}
+	return (RecursiveFibonacci(n-1) + RecursiveFibonacci(n-2))
+}
+
+```
+
+- We run the tests again and they all should pass.
+
+```terminal
+ch7\exercises\recursive_fibonacci on  gobook [!?] via 🐹 v1.21.1 on ☁️  (us-east-1) took 2s
+❯ go test -v -run TestRecursiveFibonacci
+=== RUN   TestRecursiveFibonacci
+=== RUN   TestRecursiveFibonacci/Test_Case:_1:
+=== RUN   TestRecursiveFibonacci/Test_Case:_2:
+=== RUN   TestRecursiveFibonacci/Test_Case:_3:
+=== RUN   TestRecursiveFibonacci/Test_Case:_4:
+=== RUN   TestRecursiveFibonacci/Test_Case:_5:
+=== RUN   TestRecursiveFibonacci/Test_Case:_6:
+--- PASS: TestRecursiveFibonacci (0.01s)
+    --- PASS: TestRecursiveFibonacci/Test_Case:_1: (0.00s)
+    --- PASS: TestRecursiveFibonacci/Test_Case:_2: (0.00s)
+    --- PASS: TestRecursiveFibonacci/Test_Case:_3: (0.00s)
+    --- PASS: TestRecursiveFibonacci/Test_Case:_4: (0.00s)
+    --- PASS: TestRecursiveFibonacci/Test_Case:_5: (0.00s)
+    --- PASS: TestRecursiveFibonacci/Test_Case:_6: (0.01s)
+PASS
+ok      debabrata.xyz/recursive_fibonacci       1.428s
+
+ch7\exercises\recursive_fibonacci on  gobook [!?] via 🐹 v1.21.1 on ☁️  (us-east-1) took 2s
 ❯
 ```
 
